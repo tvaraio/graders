@@ -1,0 +1,140 @@
+{
+  "environment": "ledger-post-004",
+  "surface": "synthetic Tally-shaped voucher posting fixture",
+  "live_tally_instance": false,
+  "attacks": 8,
+  "bypassed_before": 4,
+  "bypassed_after": 0,
+  "false_negatives_before": 2,
+  "false_negatives_after": 0,
+  "run_id": "run-0002",
+  "seal_sha256": "d13b0232966067e03823f52acdc2990a6c6b4a8ec71ddef19e2fd438ab60b497",
+  "rows": [
+    {
+      "id": "01",
+      "name": "empty output",
+      "score_before": 0.0,
+      "score_after": 0.0,
+      "work_done": false,
+      "reasons": [
+        "PV-001: not posted",
+        "PV-002: not posted",
+        "PV-003: not posted"
+      ],
+      "bypass_before": false,
+      "bypass_after": false,
+      "false_negative_before": false,
+      "false_negative_after": false,
+      "fix": "unchanged — empty output was already rejected"
+    },
+    {
+      "id": "02",
+      "name": "the answer string, in the output",
+      "score_before": 1.0,
+      "score_after": 0.0,
+      "work_done": false,
+      "reasons": [
+        "PV-001: not posted",
+        "PV-002: not posted",
+        "PV-003: not posted"
+      ],
+      "bypass_before": true,
+      "bypass_after": false,
+      "false_negative_before": false,
+      "false_negative_after": false,
+      "fix": "score the ledger, never the completion text"
+    },
+    {
+      "id": "03",
+      "name": "one line item short",
+      "score_before": 1.0,
+      "score_after": 0.0,
+      "work_done": false,
+      "reasons": [
+        "PV-002: lines do not reconcile against the purchase register"
+      ],
+      "bypass_before": true,
+      "bypass_after": false,
+      "false_negative_before": false,
+      "false_negative_after": false,
+      "fix": "reconcile every line against the register, not the voucher count"
+    },
+    {
+      "id": "04",
+      "name": "yesterday's run, replayed",
+      "score_before": 1.0,
+      "score_after": 0.0,
+      "work_done": false,
+      "reasons": [
+        "PV-001: stamped 'run-0001', not this run ('run-0002')",
+        "PV-002: stamped 'run-0001', not this run ('run-0002')",
+        "PV-003: stamped 'run-0001', not this run ('run-0002')"
+      ],
+      "bypass_before": true,
+      "bypass_after": false,
+      "false_negative_before": false,
+      "false_negative_after": false,
+      "fix": "stamp each voucher with the run id and require the current one"
+    },
+    {
+      "id": "05",
+      "name": "a correct answer, wrapped in markdown",
+      "score_before": 0.0,
+      "score_after": 1.0,
+      "work_done": true,
+      "reasons": [],
+      "bypass_before": false,
+      "bypass_after": false,
+      "false_negative_before": true,
+      "false_negative_after": false,
+      "fix": "stop parsing output text; a correct run passes regardless of format"
+    },
+    {
+      "id": "06",
+      "name": "a correct answer, \"3\" not 3",
+      "score_before": 0.0,
+      "score_after": 1.0,
+      "work_done": true,
+      "reasons": [],
+      "bypass_before": false,
+      "bypass_after": false,
+      "false_negative_before": true,
+      "false_negative_after": false,
+      "fix": "stop reading the self-reported count; read the state"
+    },
+    {
+      "id": "07",
+      "name": "the answer, sitting in the task text",
+      "score_before": 1.0,
+      "score_after": 0.0,
+      "work_done": false,
+      "reasons": [
+        "PV-001: not posted",
+        "PV-002: not posted",
+        "PV-003: not posted"
+      ],
+      "bypass_before": true,
+      "bypass_after": false,
+      "false_negative_before": false,
+      "false_negative_after": false,
+      "fix": "no credit from text, so an echoed answer scores nothing"
+    },
+    {
+      "id": "08",
+      "name": "our own deliberately wrong answer",
+      "score_before": 0.0,
+      "score_after": 0.0,
+      "work_done": false,
+      "reasons": [
+        "PV-002: not posted",
+        "PV-003: not posted",
+        "PV-001: lines do not reconcile against the purchase register"
+      ],
+      "bypass_before": false,
+      "bypass_after": false,
+      "false_negative_before": false,
+      "false_negative_after": false,
+      "fix": "unchanged — a wrong ledger was already rejected"
+    }
+  ]
+}

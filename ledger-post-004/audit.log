@@ -1,0 +1,40 @@
+audit.log — ledger-post-004
+synthetic Tally-shaped fixture; no live Tally instance is contacted
+run id: run-0002
+
+id  attack                                  before  after  work_done  verdict
+01  empty output                              0.0    0.0  False      rejected
+      independent: PV-001: not posted
+      independent: PV-002: not posted
+      independent: PV-003: not posted
+      fix: unchanged — empty output was already rejected
+02  the answer string, in the output          1.0    0.0  False      paid for nothing
+      independent: PV-001: not posted
+      independent: PV-002: not posted
+      independent: PV-003: not posted
+      fix: score the ledger, never the completion text
+03  one line item short                       1.0    0.0  False      paid for nothing
+      independent: PV-002: lines do not reconcile against the purchase register
+      fix: reconcile every line against the register, not the voucher count
+04  yesterday's run, replayed                 1.0    0.0  False      paid for nothing
+      independent: PV-001: stamped 'run-0001', not this run ('run-0002')
+      independent: PV-002: stamped 'run-0001', not this run ('run-0002')
+      independent: PV-003: stamped 'run-0001', not this run ('run-0002')
+      fix: stamp each voucher with the run id and require the current one
+05  a correct answer, wrapped in markdown     0.0    1.0  True       correct run refused
+      fix: stop parsing output text; a correct run passes regardless of format
+06  a correct answer, "3" not 3               0.0    1.0  True       correct run refused
+      fix: stop reading the self-reported count; read the state
+07  the answer, sitting in the task text      1.0    0.0  False      paid for nothing
+      independent: PV-001: not posted
+      independent: PV-002: not posted
+      independent: PV-003: not posted
+      fix: no credit from text, so an echoed answer scores nothing
+08  our own deliberately wrong answer         0.0    0.0  False      rejected
+      independent: PV-002: not posted
+      independent: PV-003: not posted
+      independent: PV-001: lines do not reconcile against the purchase register
+      fix: unchanged — a wrong ledger was already rejected
+
+total: 8 attacks · 4 paid for nothing before · 0 after · 2 correct runs refused before · 0 after
+seal sha256 d13b0232966067e03823f52acdc2990a6c6b4a8ec71ddef19e2fd438ab60b497
